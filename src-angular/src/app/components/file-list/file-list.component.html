@@ -9,6 +9,7 @@
         </div>
         <div *ngIf="directoryPath">
             <p class="text-gray-500 mb-4">Selected Directory: {{ directoryPath }}</p>
+            <!--
             <div *ngIf="files.length > 0; else noFiles">
                 <div class="overflow-y-auto h-80">
                     <div *ngFor="let file of files"
@@ -23,6 +24,33 @@
                         <div class="text-gray-500">{{ file.suggestedName }}</div>
                     </div>
                 </div>
+            </div>
+            -->
+            <div *ngIf="files.length > 0; else noFiles">
+                <h3>File List</h3>
+                <table border="1" style="width: 100%; border-collapse: collapse; text-align: left;">
+                    <thead>
+                        <tr>
+                            <th style="padding: 8px;">
+                                <input type="checkbox" (change)="toggleSelectAll($event)" [checked]="isAllSelected()" />
+                                <!-- Select All Checkbox -->
+                            </th>
+                            <th style="padding: 8px;">Directory</th>
+                            <th style="padding: 8px;">Original File Name</th>
+                            <th style="padding: 8px;">Suggested File Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let file of files">
+                            <td style="padding: 8px;">
+                                <input type="checkbox" [(ngModel)]="file.selected" />
+                            </td>
+                            <td style="padding: 8px;">{{ directoryPath }}</td>
+                            <td style="padding: 8px;">{{ file.originalName }}</td>
+                            <td style="padding: 8px;">{{ file.suggestedName }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <ng-template #noFiles>
                 <p class="text-gray-500">No files with symbols found in the selected directory.</p>
@@ -39,4 +67,5 @@
             </div>
         </div>
     </div>
+
 </div>
