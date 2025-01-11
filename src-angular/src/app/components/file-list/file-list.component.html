@@ -1,0 +1,42 @@
+<div class="container mx-auto mt-10">
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold mb-4">File Renamer</h2>
+        <div class="mb-4">
+            <label for="directory" class="block text-sm font-medium text-gray-700">Select Directory</label>
+            <input id="directory" type="file" webkitdirectory directory (change)="handleDirectoryChange($event)"
+                class="mt-1 p-2 border border-gray-300 rounded-md" />
+            <p *ngIf="error" class="mt-2 text-sm text-red-500">{{ error }}</p>
+        </div>
+        <div *ngIf="directoryPath">
+            <p class="text-gray-500 mb-4">Selected Directory: {{ directoryPath }}</p>
+            <div *ngIf="files.length > 0; else noFiles">
+                <div class="overflow-y-auto h-80">
+                    <div *ngFor="let file of files"
+                        class="flex items-center justify-between p-2 rounded hover:bg-gray-100">
+                        <div class="flex items-center space-x-2">
+                            <input type="checkbox" [id]="file.originalName"
+                                [checked]="selectedFiles.includes(file.originalName)"
+                                (change)="toggleFileSelection(file.originalName)"
+                                class="form-checkbox h-4 w-4 text-blue-600" />
+                            <label [for]="file.originalName" class="text-gray-700">{{ file.originalName }}</label>
+                        </div>
+                        <div class="text-gray-500">{{ file.suggestedName }}</div>
+                    </div>
+                </div>
+            </div>
+            <ng-template #noFiles>
+                <p class="text-gray-500">No files with symbols found in the selected directory.</p>
+            </ng-template>
+            <div class="flex justify-end space-x-2 mt-4">
+                <button (click)="clearSelection()"
+                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+                    Clear Selection
+                </button>
+                <button (click)="renameSelectedFiles()" [disabled]="selectedFiles.length === 0"
+                    class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                    Rename Selected Files
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
